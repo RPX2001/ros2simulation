@@ -7,7 +7,7 @@
         <origin xyz="0.1 0 0.175" rpy="0 0 0"/>
 
     </joint>
-
+    
     <link name="laser_frame">
         <visual>
             <geometry>

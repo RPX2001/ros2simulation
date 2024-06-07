@@ -7,7 +7,7 @@
         <origin xyz="0.1 0 0.175" rpy="0 0 0"/>
 
     </joint>
-    
+
     <link name="laser_frame">
         <visual>
             <geometry>
@@ -24,7 +24,42 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_cylinder>
     </link>
-
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Red</material>
+        <sensor name="laser" type="ray">
+        <!-- origin of virtual sensor -->
+            <pose> 0 0 0 0 0 0 </pose>  
+            <visualize>true</visualize>
+            <!-- update in 10 sec rate -->
+            <update_rate>10</update_rate>
+            <!-- ray specifies range  -->
+            <ray> 
+                <scan>
+                    <horizontal>
+                    <!-- scan horizontally -->
+                        <samples>360</samples>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                <!-- maximum and minimum range set 0.3mm to 12m -->
+                    <min>0.3</min>
+                    <max>12</max>
+                </range>  
+            </ray>
+            <!-- interacting thing outside with gazebo -->
+            <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+               <!-- publish laser scan message to topic scan -->
+               <ros>
+                    <argument>~/out:=scan</argument>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>laser_frame</frame_name>
+            </plugin>
+        </sensor>
+    
+    </gazebo>
 
 
 
